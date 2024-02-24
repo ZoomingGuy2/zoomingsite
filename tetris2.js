@@ -4,7 +4,7 @@ const context = canvas.getContext('2d');
 // Set the size of each block and the game board
 const BLOCK_SIZE = 20;
 const ROWS = 20;
-const COLS = 10;
+const COLS = 12;
 
 // Initialize the game board
 const board = [];
@@ -72,7 +72,7 @@ function draw() {
     drawMatrix(board, { x: 0, y: 0 });
 
     // Draw the current Tetris piece
-    drawMatrix(player.matrix, player.pos);
+    drawMatrix(player.matrix, {x: player.pos.x*BLOCK_SIZE, y: player.pos.y*BLOCK_SIZE});
 }
 
 // Function to draw a matrix (Tetris piece or game board) onto the canvas
