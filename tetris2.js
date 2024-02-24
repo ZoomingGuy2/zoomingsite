@@ -231,8 +231,22 @@ function enterScore() {
     // Construct the data to send
     const newData = { name: playerName, score: playerScore };
 
-    // Send the data to the server-side endpoint
-    fetch('/leaderboard')
+    // Send the data to the server-side endpoint to update the leaderboard
+    fetch('http://zoomingguy.duckdns.org:7322/updateLeaderboard', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newData)
+    })
+    .then(response => {
+        if (response.ok) {
+            // If the request is successful, fetch the updated leaderboard data
+            return fetch('http://zoomingguy.duckdns.org:7322/leaderboard');
+        } else {
+            throw new Error('Failed to update leaderboard');
+        }
+    })
     .then(response => response.json())
     .then(updatedLeaderboard => {
         // Once the data is successfully updated on the server, display the updated leaderboard
@@ -242,6 +256,7 @@ function enterScore() {
         console.error('Error updating leaderboard:', error);
     });
 }
+
 
 
 // Function to display leaderboard
