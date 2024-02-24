@@ -1,2 +1,0 @@
-# zoomingsite
-my personal website
