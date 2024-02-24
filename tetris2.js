@@ -6,6 +6,9 @@ const BLOCK_SIZE = 20;
 const ROWS = 20;
 const COLS = 12;
 
+// Function for stopping loop
+let gameRunning = false;
+
 // Initialize the game board
 const board = [];
 for (let row = 0; row < ROWS; row++) {
@@ -142,6 +145,171 @@ function rotate() {
     }
 }
 
+// Flag to track if the game over screen is currently displayed
+let isGameOverScreenDisplayed = false;
+// Function to draw game over screen
+function gameOverScreen() {
+    if (!isGameOverScreenDisplayed) {
+        // Set the flag to indicate that the game over screen is displayed
+        isGameOverScreenDisplayed = true;
+
+        stopGame();
+        // Draw overlay
+        context.fillStyle = 'rgba(0, 0, 0, 0.5)';
+        context.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Draw game over message
+        context.fillStyle = '#fff';
+        context.font = '30px Arial';
+        context.fillText('Game Over', canvas.width / 2 - 80, canvas.height / 2 - 30);
+
+        // Draw buttons
+        context.fillStyle = '#ff0000';
+        context.fillRect(canvas.width / 2 - 60, canvas.height / 2 + 20, 120, 40);
+        context.fillRect(canvas.width / 2 - 60, canvas.height / 2 + 80, 120, 40);
+
+        // Draw button text
+        context.fillStyle = '#fff';
+        context.font = '20px Arial';
+        context.fillText('Restart', canvas.width / 2 - 35, canvas.height / 2 + 45);
+        context.fillText('Enter Score', canvas.width / 2 - 50, canvas.height / 2 + 105);
+
+        // Create a Promise that resolves when a button is clicked
+        return new Promise(resolve => {
+            // Function to handle the click event
+            function handleClick(event) {
+                const rect = canvas.getBoundingClientRect();
+                const mouseX = event.clientX - rect.left;
+                const mouseY = event.clientY - rect.top;
+
+                // Check if Restart button is clicked
+                if (mouseX >= canvas.width / 2 - 60 && mouseX <= canvas.width / 2 + 60 &&
+                    mouseY >= canvas.height / 2 + 20 && mouseY <= canvas.height / 2 + 60) {
+                    // Reset the flag
+                    isGameOverScreenDisplayed = false;
+
+                    // Remove the event listener
+                    document.removeEventListener('click', handleClick);
+
+                    // Resolve the promise with 'restart'
+                    resolve('restart');
+                }
+
+                // Check if Enter Score button is clicked
+                if (mouseX >= canvas.width / 2 - 60 && mouseX <= canvas.width / 2 + 60 &&
+                    mouseY >= canvas.height / 2 + 80 && mouseY <= canvas.height / 2 + 120) {
+                    // Reset the flag
+                    isGameOverScreenDisplayed = false;
+
+                    // Remove the event listener
+                    document.removeEventListener('click', handleClick);
+
+                    // Resolve the promise with 'enterScore'
+                    resolve('enterScore');
+                }
+            }
+
+            // Add event listener to the document
+            document.addEventListener('click', handleClick);
+        }).then(result => {
+            if (result === 'restart') {
+                startGame();
+            } else if (result === 'enterScore') {
+                enterScore();
+            }
+        });
+    }
+}
+
+
+
+function enterScore() {
+    // Prompt user to enter name and score
+    const playerName = prompt('Enter your name:');
+    const playerScore = 1;
+
+    // Construct the data to send
+    const newData = { name: playerName, score: playerScore };
+
+    // Send the data to the server-side endpoint
+    fetch('/leaderboard')
+    .then(response => response.json())
+    .then(updatedLeaderboard => {
+        // Once the data is successfully updated on the server, display the updated leaderboard
+        displayLeaderboard(updatedLeaderboard);
+    })
+    .catch(error => {
+        console.error('Error updating leaderboard:', error);
+    });
+}
+
+
+// Function to display leaderboard
+function displayLeaderboard(leaderboardData) {
+    clearCanvas();
+    drawLeaderboardTitle();
+    drawLeaderboardEntries(leaderboardData);
+    drawRestartButton();
+}
+
+// Function to clear the canvas
+function clearCanvas() {
+    context.fillStyle = '#000';
+    context.fillRect(0, 0, canvas.width, canvas.height);
+}
+
+// Function to draw leaderboard title
+function drawLeaderboardTitle() {
+    context.fillStyle = '#fff';
+    context.font = '30px Arial';
+    context.fillText('Leaderboard', canvas.width / 2 - 80, 50);
+}
+
+// Function to draw leaderboard entries
+function drawLeaderboardEntries(leaderboardData) {
+    context.font = '20px Arial';
+    leaderboardData.forEach((entry, index) => {
+        const y = 100 + index * 30;
+        context.fillText(`${entry.name}: ${entry.score}`, canvas.width / 2 - 80, y);
+    });
+}
+
+// Function to draw restart button
+function drawRestartButton() {
+    const buttonX = canvas.width / 2 - 60;
+    const buttonY = canvas.height - 80;
+    const buttonWidth = 120;
+    const buttonHeight = 40;
+
+    context.fillStyle = '#ff0000';
+    context.fillRect(buttonX, buttonY, buttonWidth, buttonHeight);
+
+    context.fillStyle = '#fff';
+    context.font = '20px Arial';
+    context.fillText('Restart', buttonX + 25, buttonY + 25);
+
+    canvas.addEventListener('click', handleRestartClick);
+}
+
+// Function to handle click on restart button
+function handleRestartClick(event) {
+    const rect = canvas.getBoundingClientRect();
+    const mouseX = event.clientX - rect.left;
+    const mouseY = event.clientY - rect.top;
+
+    const buttonX = canvas.width / 2 - 60;
+    const buttonY = canvas.height - 80;
+    const buttonWidth = 120;
+    const buttonHeight = 40;
+
+    if (mouseX >= buttonX && mouseX <= buttonX + buttonWidth &&
+        mouseY >= buttonY && mouseY <= buttonY + buttonHeight) {
+        canvas.removeEventListener('click', handleRestartClick);
+        startGame();
+    }
+}
+
+
 // Function to reset the player position and select a new random piece
 function playerReset() {
     const pieces = 'ILJOTSZ';
@@ -150,7 +318,8 @@ function playerReset() {
     player.pos.x = Math.floor(COLS / 2) - Math.floor(player.matrix.length / 2);
     if (collide(board, player)) {
         // Game over
-        resetGame();
+	console.log('Game over condition reached.');
+	gameOverScreen();
     }
 }
 
@@ -215,6 +384,9 @@ function handleKeyPress(event) {
     }
 }
 
+function stopGame(){
+	gameRunning = false;
+}
 // Function to start the game
 function startGame() {
     resetGame();
@@ -222,6 +394,7 @@ function startGame() {
     dropCounter = 0;
     dropInterval = 1000; // milliseconds
     lastTime = 0;
+    gameRunning = true;
     requestAnimationFrame(update);
 }
 
@@ -239,13 +412,16 @@ function resetGame() {
 function update(time = 0) {
     const deltaTime = time - lastTime;
     lastTime = time;
-    dropCounter += deltaTime;
-    if (dropCounter > dropInterval) {
-        moveDown();
-    }
-    draw();
-    requestAnimationFrame(update);
+	if(gameRunning){
+	    dropCounter += deltaTime;
+	    if (dropCounter > dropInterval) {
+		moveDown();
+	    }
+	    draw();
+	    requestAnimationFrame(update);
+	}
 }
+
 
 // Start the game
 startGame();
