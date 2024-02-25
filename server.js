@@ -30,7 +30,6 @@ app.get('/leaderboard', (req, res) => {
 });
 
 // Endpoint to update leaderboard
-// Endpoint to update leaderboard
 app.post('/updateLeaderboard', async (req, res) => {
     // Assuming the request body contains the new leaderboard entry
     const newEntry = req.body;
@@ -51,6 +50,12 @@ app.post('/updateLeaderboard', async (req, res) => {
         // Append the new entry to the existing data
         leaderboardData.push(newEntry);
 
+        // Sort the leaderboard data by score (descending order)
+        leaderboardData.sort((a, b) => b.score - a.score);
+
+        // Keep only the top 10 entries
+        leaderboardData = leaderboardData.slice(0, 10);
+
         // Write the updated data back to the file
         await fs.promises.writeFile(filePath, JSON.stringify(leaderboardData, null, 2), 'utf8');
 
@@ -61,6 +66,7 @@ app.post('/updateLeaderboard', async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
+
 
 
 
