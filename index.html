@@ -4,70 +4,96 @@
     <title>Welcome to My Website</title>
     <style>
         body {
-            position: relative; /* Make body a relative positioning reference */
-            background-image: url('photos/circuit.png'); /* Specify the URL or path to your background image */
-            background-repeat: repeat; /* Set the background image to repeat */
-            background-color: white; /* Default light mode background */
-            color: black; /* Default light mode text color */
+            font-family: "Andale Mono", monospace;
+            position: relative;
+            background-image: url('photos/circuit.png');
+            background-repeat: repeat;
+            background-color: white;
+            color: black;
         }
+
         /* Dark mode styles */
         body.dark-mode {
-            background-image: url('photos/darkcircuit.png'); /* Specify the URL or path to your background image */
-            background-repeat: repeat; /* Set the background image to repeat */
-            background-color: black; /* Default dark mode background */
-            color: white; /* Default dark mode text color */
+            background-image: url('photos/darkcircuit.png');
+            background-repeat: repeat;
+            background-color: black;
+            color: white;
         }
+
         img {
-            /*max-width: 50%;*/
-            height: auto; /* Maintain aspect ratio */
+            height: auto;
         }
+
         /* Styles for toggle switch */
         #darkModeToggleContainer {
             position: absolute;
-            top: 10px; /* Adjust top distance as needed */
-            right: 10px; /* Adjust right distance as needed */
+            top: 10px;
+            right: 10px;
         }
-	/*Centering class*/
-	.center {
-		text-align: center;
-		margin: 0 auto;
-	}
+
+        /* Terminal green color for hyperlinks */
+        a {
+            color: inherit; /* Inherit color from parent element */
+            text-decoration: default; /* Remove default underline */
+        }
+
+        a:visited {
+            color: #00FF00; /* Inherit color from parent element */
+        }
+
+        a:hover {
+            color: #00FF00; /* Terminal green color on hover */
+        }
+
+        a:active {
+            color: #00FF00; /* Terminal green color when clicked */
+        }
+
+        /*Centering class*/
+        .center {
+            text-align: center;
+            margin: 0 auto;
+        }
     </style>
 </head>
 <body>
-	<table class="center" style="padding-top: 20px">
-		<tr>
-			<td style="vertical-align: top;">
-				<h1>Zooming Guy 2</h1>
-				<p>find me on <a href="https://www.strava.com/athletes/28883692">strava</a></p>
-			</td>
-			<td width="30"></td>
-			<td>
-				<img src="photos/chipotle.png" alt="Image of me" align="left" hspace="10" style="max-width: 300px">
-			</td>
-		</tr>
-	</table>
-    
-	<!-- Toggle switch container -->
-	<div id="darkModeToggleContainer">
-	<label for="darkModeToggle">Dark Mode:</label>
+    <table class="center" style="padding-top: 20px">
+        <tr>
+            <td style="vertical-align: top;">
+                <h1>Zooming Guy 2</h1>
+                <p>find me on <a href="https://www.strava.com/athletes/28883692">strava</a></p>
+            </td>
+            <td width="30"></td>
+            <td>
+                <img src="photos/chipotle.png" alt="Image of me" align="left" hspace="10" style="max-width: 300px">
+            </td>
+        </tr>
+    </table>
+
+    <!-- Toggle switch container -->
+    <div id="darkModeToggleContainer">
+        <label for="darkModeToggle">Dark Mode:</label>
         <input type="checkbox" id="darkModeToggle">
-	</div>
-	
-	<div class="center" style="padding-top: 20px">
-		<img src="photos/bar.png">
-	</div>
-	<div class="center" style="width:1200px; text-align: left;">
-		<p style="font-size: 20px; font-weight: bold;">What I do</p>
-		<p>Arda Caliskan is currently a senior at the University of Southern California pursuing a Bachelor's and Master's degree in Electrical Engineering.</p>
-		<hr>
-		<p style="font-size: 20px; font-weight: bold;">Links</p>
-		<p><a href="Resume.pdf">Resume</a></p>
-		<hr>
-		<p style="font-size: 20px; font-weight: bold;">Contact</p>
-		<p>Phone: (801) 471-8168</p>
-		<p>E-mail: ardac2002@gmail.com</p>
-	</div>
+    </div>
+
+    <div class="center" style="padding-top: 20px">
+        <img src="photos/bar.png">
+    </div>
+    <div class="center" style="width:1200px; text-align: left;">
+        <p style="font-size: 20px; font-weight: bold;">What I do</p>
+        <p>Arda Caliskan is currently a senior at the University of Southern California pursuing a Bachelor's and Master's degree in Electrical Engineering.</p>
+        <hr>
+        <p style="font-size: 20px; font-weight: bold;">Games</p>
+        <p><a href="/tetris2">Tetris  <img src="photos/new.png"></a></p>
+        <p><a href="/tetris">Old school tetris  <img src="photos/new.png"></a></p>
+        <hr>
+        <p style="font-size: 20px; font-weight: bold;">Links</p>
+        <p><a href="Resume.pdf">Resume</a></p>
+        <hr>
+        <p style="font-size: 20px; font-weight: bold;">Contact</p>
+        <p>Phone: (801) 471-8168</p>
+        <p>E-mail: ardac2002@gmail.com</p>
+    </div>
     <script>
         // Function to set dark mode based on local storage
         function setDarkMode() {
@@ -78,7 +104,7 @@
 
         // JavaScript to toggle dark mode
         const darkModeToggle = document.getElementById('darkModeToggle');
-        
+
         darkModeToggle.addEventListener('change', () => {
             document.body.classList.toggle('dark-mode');
             localStorage.setItem('darkMode', darkModeToggle.checked);
@@ -89,4 +115,3 @@
     </script>
 </body>
 </html>
-

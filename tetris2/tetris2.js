@@ -351,7 +351,7 @@ function drawLeaderboardEntries(leaderboardData) {
     context.font = 'bold 25px "Andale Mono", monospace'; // Using Courier New as a monospaced font
     leaderboardData.forEach((entry, index) => {
         const num = (index + 1).toString().padStart(3, ' '); // Number with leading space
-        const name = entry.name.padEnd(5, '.'); // Name with trailing dots, adjusted for 10 characters
+        const name = entry.name.padEnd(14, '.'); // Name with trailing dots, adjusted for 10 characters
         const score = entry.score.toString().padStart(8, '.'); // Score with leading spaces
 
         // Concatenate num, name, and score, and pad the resulting string to match maxLength
@@ -361,7 +361,7 @@ function drawLeaderboardEntries(leaderboardData) {
         const y = 100 + index * 40;
 
         // Draw the line
-        context.fillText(line, 50, y);
+        context.fillText(line, 30, y);
     });
 }
 
@@ -553,6 +553,7 @@ function resumeGame() {
 // Function to start the game
 function startGame() {
     resetGame();
+    playerReset();
     document.addEventListener('keydown', handleKeyPress);
     dropCounter = 0;
     dropInterval = 1000; // milliseconds
