@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>custom tetris</title>
+    <style>
+        body {
+            position: relative; /* Make body a relative positioning reference */
+            background-image: url('../photos/circuit.png'); /* Specify the URL or path to your background image */
+            background-repeat: repeat; /* Set the background image to repeat */
+            background-color: white; /* Default light mode background */
+            color: black; /* Default light mode text color */
+        }
+        /* Dark mode styles */
+        body.dark-mode {
+            background-image: url('../photos/darkcircuit.png'); /* Specify the URL or path to your background image */
+            background-repeat: repeat; /* Set the background image to repeat */
+            background-color: black; /* Default dark mode background */
+            color: white; /* Default dark mode text color */
+        }
+        img {
+            /*max-width: 50%;*/
+            height: auto; /* Maintain aspect ratio */
+        }
+        /* Styles for toggle switch */
+        #darkModeToggleContainer {
+            position: absolute;
+            top: 10px; /* Adjust top distance as needed */
+            right: 10px; /* Adjust right distance as needed */
+        }
+        /*Centering class*/
+        .center {
+            text-align: center;
+            margin: 0 auto;
+        }
+        .white-box {
+            background-color: white;
+            padding: 10px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            width: 490px; /* Adjust width as needed */
+            margin: 0 auto; /* Center the box */
+  }
+    </style>
+</head>
+<body>
+    <div id="darkModeToggleContainer">
+        <label for="darkModeToggle">Dark Mode:</label>
+        <input type="checkbox" id="darkModeToggle">
+	</div>
+	<div class="center white-box">
+		<canvas id="tetris" width="480" height="800"></canvas>
+		<script src="tetris2.js"></script>
+	</div>
+    <script>
+        // Function to set dark mode based on local storage
+        function setDarkMode() {
+            const isDarkMode = localStorage.getItem('darkMode') === 'true';
+            document.body.classList.toggle('dark-mode', isDarkMode);
+            document.getElementById('darkModeToggle').checked = isDarkMode;
+        }
+
+        // JavaScript to toggle dark mode
+        const darkModeToggle = document.getElementById('darkModeToggle');
+
+        darkModeToggle.addEventListener('change', () => {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', darkModeToggle.checked);
+        });
+
+        // Set dark mode on page load
+        setDarkMode();
+    </script>
+</body>
+</html>
