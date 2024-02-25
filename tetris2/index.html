@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>custom tetris</title>
     <style>
         body {
@@ -19,6 +19,10 @@
             background-color: black; /* Default dark mode background */
             color: white; /* Default dark mode text color */
         }
+        /* Dark mode styles for the score display */
+        body.dark-mode #scoreDisplay {
+            color: white; /* Dark mode text color */
+        }
         img {
             /*max-width: 50%;*/
             height: auto; /* Maintain aspect ratio */
@@ -28,6 +32,27 @@
             position: absolute;
             top: 10px; /* Adjust top distance as needed */
             right: 10px; /* Adjust right distance as needed */
+            font-family: 'Andale Mono', monospace; /* Set the font to Andale Mono */
+        }
+        /* Add styles for the tetris container */
+        #tetrisContainer {
+            position: relative;
+            display: inline-block; /* Ensure the container shrinks to fit the canvas */
+        }
+
+        /* Adjust the position of the score display */
+        #parentContainer {
+            position: relative;
+            display: inline-block;
+        }
+
+        #scoreDisplay {
+            position: absolute;
+            top: 0;
+            left: calc(100% + 40px); /* Adjust the distance from the Tetris canvas */
+            font-size: 30px;
+            color: black;
+            font-family: 'Andale Mono', monospace; /* Set the font to Andale Mono */
         }
         /*Centering class*/
         .center {
@@ -41,7 +66,7 @@
             border-radius: 5px;
             width: 490px; /* Adjust width as needed */
             margin: 0 auto; /* Center the box */
-  }
+        }
     </style>
 </head>
 <body>
@@ -49,10 +74,16 @@
         <label for="darkModeToggle">Dark Mode:</label>
         <input type="checkbox" id="darkModeToggle">
 	</div>
-	<div class="center white-box">
-		<canvas id="tetris" width="480" height="800"></canvas>
-		<script src="tetris2.js"></script>
-	</div>
+    <div class="center white-box">
+        <div id="parentContainer">
+            <div id="tetrisContainer">
+                <canvas id="tetris" width="480" height="800"></canvas>
+            </div>
+            <div id="scoreDisplay">Score: <span id="score">0</span></div>
+        </div>
+    </div>
+
+    <script src="tetris2.js"></script>
     <script>
         // Function to set dark mode based on local storage
         function setDarkMode() {

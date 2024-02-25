@@ -8,6 +8,8 @@ const COLS = 12;
 
 // Function for stopping loop
 let gameRunning = false;
+// variable for pausing
+let isPaused = false;
 
 //score variable
 let score = 0;
@@ -20,9 +22,8 @@ let speedScale = 0.99 ; // Amount to scale the drop interval by
 
 // Function to display the score
 function drawScore() {
-    context.fillStyle = '#fff';
-    context.font = '20px Arial';
-    context.fillText('Score: ' + score, canvas.width / 2 - 80, 80);
+    const scoreDisplay = document.getElementById('score');
+    scoreDisplay.textContent = score;
 }
 
 // Function to update the score
@@ -125,12 +126,13 @@ function drawMatrix(matrix, offset) {
 function merge() {
     player.matrix.forEach((row, y) => {
         row.forEach((value, x) => {
-            if (value !== 0) {
+            if (value !== 0 && board[y + player.pos.y]) {
                 board[y + player.pos.y][x + player.pos.x] = value;
             }
         });
     });
 }
+
 
 // Function to move the current Tetris piece left
 function moveLeft() {
@@ -178,7 +180,7 @@ function drop() {
 function updateSpeed() {
     if (dropInterval > 100) { // Limit the maximum speed increase
         dropInterval = Math.round(dropInterval*speedScale); // Decrease drop interval
-        scoreMultiplier = dropInterval/initialDropInterval;
+        scoreMultiplier = initialDropInterval/dropInterval;
     }
 }
 
@@ -225,19 +227,19 @@ function gameOverScreen() {
 
         // Draw game over message
         context.fillStyle = '#fff';
-        context.font = '30px Arial';
+        context.font = '30px "Andale Mono", monospace';
         context.fillText('Game Over', canvas.width / 2 - 80, canvas.height / 2 - 30);
 
         // Draw buttons
         context.fillStyle = '#ff0000';
-        context.fillRect(canvas.width / 2 - 60, canvas.height / 2 + 20, 120, 40);
-        context.fillRect(canvas.width / 2 - 60, canvas.height / 2 + 80, 120, 40);
+        context.fillRect(canvas.width / 2 - 80, canvas.height / 2 + 20, 160, 40);
+        context.fillRect(canvas.width / 2 - 80, canvas.height / 2 + 80, 160, 40);
 
         // Draw button text
         context.fillStyle = '#fff';
-        context.font = '20px Arial';
-        context.fillText('Restart', canvas.width / 2 - 35, canvas.height / 2 + 45);
-        context.fillText('Enter Score', canvas.width / 2 - 50, canvas.height / 2 + 105);
+        context.font = '20px "Andale Mono", monospace';
+        context.fillText('Restart', canvas.width / 2 - 40, canvas.height / 2 + 45);
+        context.fillText('Enter Score', canvas.width / 2 - 65, canvas.height / 2 + 105);
 
         // Create a Promise that resolves when a button is clicked
         return new Promise(resolve => {
@@ -248,7 +250,7 @@ function gameOverScreen() {
                 const mouseY = event.clientY - rect.top;
 
                 // Check if Restart button is clicked
-                if (mouseX >= canvas.width / 2 - 60 && mouseX <= canvas.width / 2 + 60 &&
+                if (mouseX >= canvas.width / 2 - 80 && mouseX <= canvas.width / 2 + 80 &&
                     mouseY >= canvas.height / 2 + 20 && mouseY <= canvas.height / 2 + 60) {
                     // Reset the flag
                     isGameOverScreenDisplayed = false;
@@ -261,7 +263,7 @@ function gameOverScreen() {
                 }
 
                 // Check if Enter Score button is clicked
-                if (mouseX >= canvas.width / 2 - 60 && mouseX <= canvas.width / 2 + 60 &&
+                if (mouseX >= canvas.width / 2 - 80 && mouseX <= canvas.width / 2 + 80 &&
                     mouseY >= canvas.height / 2 + 80 && mouseY <= canvas.height / 2 + 120) {
                     // Reset the flag
                     isGameOverScreenDisplayed = false;
@@ -340,18 +342,31 @@ function clearCanvas() {
 // Function to draw leaderboard title
 function drawLeaderboardTitle() {
     context.fillStyle = '#fff';
-    context.font = '30px Arial';
-    context.fillText('Leaderboard', canvas.width / 2 - 80, 50);
+    context.font = 'bold 30px "Andale Mono", monospace';
+    context.fillText('LEADERBOARD', canvas.width / 2 - 100, 50);
 }
 
-// Function to draw leaderboard entries
 function drawLeaderboardEntries(leaderboardData) {
-    context.font = '20px Arial';
+    const maxLength = 20; // Maximum length of each line (including the number)
+    context.font = 'bold 25px "Andale Mono", monospace'; // Using Courier New as a monospaced font
     leaderboardData.forEach((entry, index) => {
-        const y = 100 + index * 30;
-        context.fillText(`${entry.name}: ${entry.score}`, canvas.width / 2 - 80, y);
+        const num = (index + 1).toString().padStart(3, ' '); // Number with leading space
+        const name = entry.name.padEnd(5, '.'); // Name with trailing dots, adjusted for 10 characters
+        const score = entry.score.toString().padStart(8, '.'); // Score with leading spaces
+
+        // Concatenate num, name, and score, and pad the resulting string to match maxLength
+        const line = `${num}. ${name}${score}`.padEnd(maxLength, '.');
+
+        // Calculate y position based on index
+        const y = 100 + index * 40;
+
+        // Draw the line
+        context.fillText(line, 50, y);
     });
 }
+
+
+
 
 // Function to draw restart button
 function drawRestartButton() {
@@ -364,7 +379,7 @@ function drawRestartButton() {
     context.fillRect(buttonX, buttonY, buttonWidth, buttonHeight);
 
     context.fillStyle = '#fff';
-    context.font = '20px Arial';
+    context.font = '20px "Andale Mono"';
     context.fillText('Restart', buttonX + 25, buttonY + 25);
 
     canvas.addEventListener('click', handleRestartClick);
@@ -467,7 +482,41 @@ function handleKeyPress(event) {
         rotate();
     } else if (event.keyCode === 32) { // Spacebar
         drop();
+    } else if (event.keyCode === 80) { // "P" key
+        togglePause();
     }
+}
+
+// Function to toggle the game pause state
+function togglePause() {
+    isPaused = !isPaused;
+    if (isPaused) {
+        stopGame(); // Stop the game loop or any ongoing actions
+        drawPauseScreen(); // Draw the pause screen
+    } else {
+        resumeGame(); // Resume the game loop or actions
+        clearPauseScreen(); // Clear the pause screen
+        requestAnimationFrame(update); // Continue the game loop
+    }
+}
+
+
+// Function to draw the pause screen
+function drawPauseScreen() {
+    // Draw overlay to gray out the background
+    context.fillStyle = 'rgba(0, 0, 0, 0.5)';
+    context.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Draw "Paused" text
+    context.fillStyle = '#fff';
+    context.font = '30px "Andale Mono", monospace';
+    context.fillText('Paused', canvas.width / 2 - 50, canvas.height / 2);
+}
+
+// Function to clear the pause screen
+function clearPauseScreen() {
+    // Clear the canvas
+    context.clearRect(0, 0, canvas.width, canvas.height);
 }
 
 // Function to handle game over
@@ -494,6 +543,13 @@ function checkGameOver() {
 function stopGame(){
 	gameRunning = false;
 }
+
+// Function to resume the game loop and actions
+function resumeGame() {
+    gameRunning = true;
+}
+
+
 // Function to start the game
 function startGame() {
     resetGame();
@@ -513,6 +569,7 @@ function resetGame() {
             board[row][col] = 0;
         }
     }
+    score = 0;
 }
 
 // Function to update the game state
