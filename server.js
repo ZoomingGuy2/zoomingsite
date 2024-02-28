@@ -14,7 +14,7 @@ app.use(cors());
 // Endpoint to serve leaderboard JSON
 app.get('/leaderboard', (req, res) => {
     // Read the leaderboard JSON file
-    fs.readFile('tetris2/leaderboard.json', 'utf8', (err, data) => {
+    fs.readFile('/var/www/html/tetris2/leaderboard.json', 'utf8', (err, data) => {
         if (err) {
             console.error('Error reading leaderboard file:', err);
             res.status(500).json({ error: 'Internal server error' });
