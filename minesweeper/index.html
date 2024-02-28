@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>custom tetris</title>
+    <style>
+        body {
+            position: relative; /* Make body a relative positioning reference */
+            background-image: url('../photos/circuit.png'); /* Specify the URL or path to your background image */
+            background-repeat: repeat; /* Set the background image to repeat */
+            background-color: white; /* Default light mode background */
+            color: black; /* Default light mode text color */
+        }
+        /* Dark mode styles */
+        body.dark-mode {
+            background-image: url('../photos/darkcircuit.png'); /* Specify the URL or path to your background image */
+            background-repeat: repeat; /* Set the background image to repeat */
+            background-color: black; /* Default dark mode background */
+            color: white; /* Default dark mode text color */
+        }
+        /* Dark mode styles for the score display */
+        body.dark-mode #scoreDisplay {
+            color: white; /* Dark mode text color */
+        }
+        img {
+            /*max-width: 50%;*/
+            height: auto; /* Maintain aspect ratio */
+        }
+        /* Styles for toggle switch */
+        #darkModeToggleContainer {
+            position: absolute;
+            top: 10px; /* Adjust top distance as needed */
+            right: 10px; /* Adjust right distance as needed */
+            font-family: 'Andale Mono', monospace; /* Set the font to Andale Mono */
+        }
+        /* Add styles for the tetris container */
+        #tetrisContainer {
+            position: relative;
+            display: inline-block; /* Ensure the container shrinks to fit the canvas */
+            max-width: 400px;
+        }
+
+        /* Adjust the position of the score display */
+        #parentContainer {
+            position: relative;
+            display: inline-block;
+        }
+
+        #scoreDisplay {
+            position: absolute;
+            top: 0;
+            left: calc(100% + 40px); /* Adjust the distance from the Tetris canvas */
+            font-size: 30px;
+            color: black;
+            font-family: 'Andale Mono', monospace; /* Set the font to Andale Mono */
+        }
+        #minesweeper {
+            display: inline-block;
+            vertical-align: top;
+            line-height: 0; /* Fixes spacing issues */
+        }
+
+        /*Centering class*/
+        .center {
+            text-align: center;
+            margin: 0 auto;
+        }
+        .white-box {
+            background-color: white;
+            padding: 10px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            width: 300px; /* Adjust width as needed */
+            margin: 0 auto; /* Center the box */
+        }
+        .tile {
+            width: 16px;
+            height: 16px;
+            background-color: #eee;
+            display: inline-block;
+            text-align: center;
+            line-height: 16px;
+            vertical-align: top; /* Add this property to align tiles properly */
+        }
+        .tile-border {
+            width: 10px;
+            height: 10px;
+            background-color: #eee;
+            display: inline-block;
+            text-align: center;
+            line-height: 10px;
+            vertical-align: top; /* Add this property to align tiles properly */
+        }
+        .tile.revealed {
+            background-color: white; /* Change the background color for revealed tiles */
+        }
+        /* Style for the modal container */
+        .modal {
+            position: absolute; /* Change position to absolute */
+            top: 150%; /* Initially set it below the tiles */
+            left: 50%; /* Center horizontally */
+            transform: translate(-50%, -50%); /* Center vertically and horizontally */
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999; /* Ensure modal is on top of other elements */
+        }
+
+        /* Style for the modal content */
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Shadow effect */
+        }
+
+
+    </style>
+</head>
+<body>
+
+    <div id="darkModeToggleContainer">
+        <label for="darkModeToggle">Dark Mode:</label>
+        <input type="checkbox" id="darkModeToggle">
+	</div>
+    <div class="center white-box">
+        <div id="parentContainer">
+            <div id="tetrisContainer">
+                <div id="minesweeper" class="grid-container"></div>
+            </div>
+            <div id="scoreDisplay">Score: <span id="score">0</span></div>
+        </div>
+    </div>
+
+    <script src="minesweeper.js"></script>
+    <script>
+        // Function to set dark mode based on local storage
+        function setDarkMode() {
+            const isDarkMode = localStorage.getItem('darkMode') === 'true';
+            document.body.classList.toggle('dark-mode', isDarkMode);
+            document.getElementById('darkModeToggle').checked = isDarkMode;
+        }
+
+        // JavaScript to toggle dark mode
+        const darkModeToggle = document.getElementById('darkModeToggle');
+
+        darkModeToggle.addEventListener('change', () => {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', darkModeToggle.checked);
+        });
+
+        // Set dark mode on page load
+        setDarkMode();
+    </script>
+</body>
+</html>
