@@ -1,144 +1,129 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width" />
-    <title>Play TETRIS</title>
-    <link rel="manifest" href="./manifest.json" />
-    <meta name="theme-color" content="#C2FFAE" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@ytiurin" />
-    <meta name="twitter:creator" content="@ytiurin" />
-    <meta name="twitter:title" content="Play TETRIS game" />
-    <meta
-      name="twitter:description"
-      content="Play the original TETRIS game and post your results on the shared leaderboard."
-    />
-    <meta
-      name="description"
-      content="Play the original TETRIS game and post your results on the shared leaderboard."
-    />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>custom tetris</title>
     <style>
-      body {
-        margin: 0;
-        background-color: #000;
-        color: #c2ffae;
-        font-family: DejaVuSansMono, monospace;
-        font-size: 12px;
-        line-height: 1.2;
-      }
-      #loading {
-        margin: 20px;
-      }
-      #container {
-        display: none;
-      }
+        body {
+            position: relative; /* Make body a relative positioning reference */
+            background-image: url('../photos/circuit.png'); /* Specify the URL or path to your background image */
+            background-repeat: repeat; /* Set the background image to repeat */
+            background-color: white; /* Default light mode background */
+            color: black; /* Default light mode text color */
+        }
+        /* Dark mode styles */
+        body.dark-mode {
+            background-image: url('../photos/darkcircuit.png'); /* Specify the URL or path to your background image */
+            background-repeat: repeat; /* Set the background image to repeat */
+            background-color: black; /* Default dark mode background */
+            color: white; /* Default dark mode text color */
+        }
+        /* Dark mode styles for score display and leaderboard title */
+        body.dark-mode #scoreDisplay,
+        body.dark-mode #leaderboardDisplay,
+        body.dark-mode #leaderboardtitle {
+            color: white; /* Dark mode text color */
+        }
+        img {
+            /*max-width: 50%;*/
+            height: auto; /* Maintain aspect ratio */
+        }
+        /* Styles for toggle switch */
+        #darkModeToggleContainer {
+            position: absolute;
+            top: 10px; /* Adjust top distance as needed */
+            right: 10px; /* Adjust right distance as needed */
+            font-family: 'Andale Mono', monospace; /* Set the font to Andale Mono */
+        }
+        /* Add styles for the tetris container */
+        #tetrisContainer {
+            position: relative;
+            display: inline-block; /* Ensure the container shrinks to fit the canvas */
+        }
+
+        /* Adjust the position of the score display */
+        #parentContainer {
+            position: relative;
+            display: inline-block;
+        }
+
+        #scoreDisplay {
+            position: absolute;
+            top: 40px;
+            left: calc(100% + 50px); /* Adjust the distance from the Tetris canvas */
+            font-size: 30px;
+            color: black;
+            font-family: 'Andale Mono', monospace; /* Set the font to Andale Mono */
+            white-space: nowrap;
+        }
+        #leaderboardDisplay {
+            position: absolute;
+            top: 160px;
+            left: calc(100% + 40px); /* Adjust the distance from the Tetris canvas */
+            font-size: 18px;
+            color: black;
+            font-family: 'Andale Mono', monospace; /* Set the font to Andale Mono */
+            white-space: nowrap;
+        }
+        #leaderboardtitle {
+            position: absolute;
+            top: 120px;
+            left: calc(100% + 100px); /* Adjust the distance from the Tetris canvas */
+            font-size: 24px;
+            color: black;
+            font-family: 'Andale Mono', monospace; /* Set the font to Andale Mono */
+        }
+        /*Centering class*/
+        .center {
+            text-align: center;
+            margin: 0 auto;
+        }
+        .white-box {
+            background-color: white;
+            padding: 10px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            width: 490px; /* Adjust width as needed */
+            margin: 0 auto; /* Center the box */
+        }
     </style>
-  </head>
-  <body>
-    <div id="loading">LOADING..._</div>
-    <div id="container">
-      <div id="game"></div>
-      <div class="controls left">
-        <button id="control-left" data-key="37">LEFT</button>
-        <button id="control-rotate" data-key="38">ROTATE</button>
-      </div>
-      <div class="controls right">
-        <button id="control-pause" data-key="80">PAUSE</button>
-        <button id="control-right" data-key="39">RIGHT</button>
-        <button id="control-drop" data-key="32">DROP</button>
-      </div>
-      <div class="controls top">
-        <button id="mute-sound">MUTE SOUND</button>
-      </div>
-      <div id="userboard">
-        <div id="your-score"></div>
-        <div id="your-best-score"></div>
-        <br /><br />YOUR NAME:&nbsp;<input
-          type="text"
-          id="name-input"
-        /><br /><br /><br />
-        <div style="text-align: right">
-          <button id="userboard-close">CANCEL</button>
-          <button id="userboard-send">SEND</button>
+</head>
+<body>
+    <div id="darkModeToggleContainer">
+        <label for="darkModeToggle">Dark Mode:</label>
+        <input type="checkbox" id="darkModeToggle">
+	</div>
+    <div class="center white-box">
+        <div id="parentContainer">
+            <div id="tetrisContainer">
+                <canvas id="tetris" width="480" height="800"></canvas>
+            </div>
+            <div id="scoreDisplay">Score: <span id="score">0</span></div>
+            <div id="leaderboardtitle">LEADERBOARD</div>
+            <div id="leaderboardDisplay"></div>
         </div>
-      </div>
-      <div id="leaderboard">
-        MONTH LEADERS:<br /><br />
-        <div id="score-leaders"></div>
-        <div style="text-align: center">
-          <button id="leaderboard-close">CLOSE</button>
-        </div>
-      </div>
-      <div id="share">
-        <br /><br /><br /><span id="leaderboard-link" class="link"
-          >Leaderboard</span
-        >&nbsp;&nbsp;&nbsp;
-        <a
-          target="_blank"
-          href="https://github.com/ytiurin/tetris"
-          rel="noopener"
-          >Fork on Github</a
-        >
-      </div>
     </div>
-    <script
-      async
-      defer="defer"
-      type="text/javascript"
-      src="./public/all.js"
-    ></script>
+
+    <script src="tetris2.js"></script>
     <script>
-      navigator.serviceWorker.register("./sw.js", { scope: "./" });
+        // Function to set dark mode based on local storage
+        function setDarkMode() {
+            const isDarkMode = localStorage.getItem('darkMode') === 'true';
+            document.body.classList.toggle('dark-mode', isDarkMode);
+            document.getElementById('darkModeToggle').checked = isDarkMode;
+        }
+
+        // JavaScript to toggle dark mode
+        const darkModeToggle = document.getElementById('darkModeToggle');
+
+        darkModeToggle.addEventListener('change', () => {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', darkModeToggle.checked);
+        });
+
+        // Set dark mode on page load
+        setDarkMode();
     </script>
-    <!-- Place this tag in your head or just before your close body tag. -->
-    <script
-      async
-      defer="defer"
-      src="https://buttons.github.io/buttons.js"
-    ></script>
-    <script>
-      window.twttr = (function (t, e, r) {
-        var n,
-          i = t.getElementsByTagName(e)[0],
-          w = window.twttr || {};
-        return t.getElementById(r)
-          ? w
-          : ((n = t.createElement(e)),
-            (n.id = r),
-            (n.src = "https://platform.twitter.com/widgets.js"),
-            i.parentNode.insertBefore(n, i),
-            (w._e = []),
-            (w.ready = function (t) {
-              w._e.push(t);
-            }),
-            w);
-      })(document, "script", "twitter-wjs");
-    </script>
-    <script>
-      !(function (e, t, a, n, c, o, s) {
-        (e.GoogleAnalyticsObject = c),
-          (e[c] =
-            e[c] ||
-            function () {
-              (e[c].q = e[c].q || []).push(arguments);
-            }),
-          (e[c].l = 1 * new Date()),
-          (o = t.createElement(a)),
-          (s = t.getElementsByTagName(a)[0]),
-          (o.async = 1),
-          (o.src = n),
-          s.parentNode.insertBefore(o, s);
-      })(
-        window,
-        document,
-        "script",
-        "https://www.google-analytics.com/analytics.js",
-        "ga"
-      ),
-        ga("create", "UA-2810014-11", "auto"),
-        ga("send", "pageview");
-    </script>
-  </body>
+</body>
 </html>

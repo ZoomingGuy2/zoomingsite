@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="description" content="This is the part of my website that contains book recommendations">
+    <meta name="keywords" content="books, economics, hacking, reading, history, nonfiction, fiction, historical fiction">
+    <meta name="author" content="Arda Caliskan">
+    <title>Arda's book recs</title>
+    <link rel="icon" href="../photos/zg2_usc.ico" type="image/x-icon">
+    <style>
+        body {
+            font-family: "Andale Mono", monospace;
+            position: relative;
+            background-image: url('../photos/circuit.png');
+            background-repeat: repeat;
+            background-color: white;
+            color: black;
+            padding: 20px;
+            box-sizing: border-box;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Dark mode styles */
+        body.dark-mode {
+            background-image: url('../photos/darkcircuit.png');
+            background-repeat: repeat;
+            background-color: black;
+            color: white;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Styles for toggle switch */
+        #darkModeToggleContainer {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        /* Terminal green color for hyperlinks */
+        a {
+            color: #FF0000; /* Inherit color from parent element */
+            text-decoration: none; /* Remove default underline */
+        }
+
+        a:visited {
+            color: #00FF00; /* Inherit color from parent element */
+        }
+
+        a:hover {
+            color: #FFFF00; /* Terminal green color on hover */
+        }
+
+        a:active {
+            color: #0000FF; /* Terminal green color when clicked */
+        }
+
+        /*Centering class*/
+        .center {
+            text-align: center;
+            margin: 0 auto;
+        }
+        .center-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+
+        /* Adjustments for mobile */
+        @media (max-width: 768px) {
+            #darkModeToggleContainer {
+                top: 20px;
+                right: 20px;
+            }
+            body {
+                padding: 10px;
+            }
+            h1 {
+                font-size: 24px;
+            }
+            p {
+                font-size: 16px;
+            }
+        }
+        /* Default width for larger screens */
+        .image-responsive {
+            width: 30%;
+        }
+
+        /* Adjust the width for smaller screens */
+        @media (max-width: 768px) {
+            .image-responsive {
+                width: 70%;
+            }
+        }
+
+    </style>
+</head>
+<body> 
+    <!-- Toggle switch container -->
+    <div id="darkModeToggleContainer">
+        <label for="darkModeToggle">Dark Mode:</label>
+        <input type="checkbox" id="darkModeToggle">
+    </div> 
+    <div class="center" style="text-align: left;">
+        <p style="font-size: 20px; font-weight: bold;">Book Recommendations</p>
+	<p><a href="https://en.wikipedia.org/wiki/The_Dictator%27s_Handbook">The Dictators Handbook</a></p>
+	<p>The Cuckoo's Egg</p>
+	<p>Permanent Record</p>
+        <hr>
+
+    </div>
+    <script>
+        // Function to set dark mode based on local storage
+        function setDarkMode() {
+            const isDarkMode = localStorage.getItem('darkMode') === 'true';
+            document.body.classList.toggle('dark-mode', isDarkMode);
+            document.getElementById('darkModeToggle').checked = isDarkMode;
+        }
+
+        // JavaScript to toggle dark mode
+        const darkModeToggle = document.getElementById('darkModeToggle');
+
+        darkModeToggle.addEventListener('change', () => {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', darkModeToggle.checked);
+        });
+
+        // Set dark mode on page load
+        setDarkMode();
+    </script>
+</body>
+</html>

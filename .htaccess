@@ -1,0 +1,6 @@
+RewriteEngine On
+RewriteCond %{HTTP_HOST} ^www\.zoomingguy\.duckdns\.org$ [NC]
+RewriteRule ^(.*)$ https://zoomingguy.duckdns.org/$1 [L,R=301]
+
+# Redirect /tetris2 to /tetris
+RewriteRule ^tetris2(.*)$ /tetris$1 [L,R=301]

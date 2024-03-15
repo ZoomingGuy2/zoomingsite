@@ -36,88 +36,181 @@
         }
         /* Add styles for the tetris container */
         #tetrisContainer {
-            position: relative;
             display: inline-block; /* Ensure the container shrinks to fit the canvas */
             max-width: 400px;
+            vertical-align: top;
+            margin: 0;
+            margin: 0;
         }
 
         /* Adjust the position of the score display */
         #parentContainer {
             position: relative;
-            display: inline-block;
+            display: block;
         }
-
-        #scoreDisplay {
-            position: absolute;
-            top: 0;
-            left: calc(100% + 40px); /* Adjust the distance from the Tetris canvas */
-            font-size: 30px;
-            color: black;
-            font-family: 'Andale Mono', monospace; /* Set the font to Andale Mono */
+        #topborder{
+            display: relative;
+            line-height: 0;
+            margin-top: 0;
+            padding: 0;
+            margin-top:0px;
+        }
+        #middleborder, #bottomborder{
+            display: relative;
+            vertical-align: top;
+            line-height: 0;
+            margin-top:-1.3px;
+            padding: 0;
+            margin-left:0px;
+        }
+        #leftborder,
+        #rightborder,
+        #topleftborder,
+        #toprightborder{
+            display: relative;
+            vertical-align: top;
+            line-height: 0;
+            margin-top: 0px;
+            padding: 0;
         }
         #minesweeper {
             display: inline-block;
-            vertical-align: top;
-            line-height: 0; /* Fixes spacing issues */
+            vertical-align: middle;
+            line-height: 0;
+            margin-top: 0px;
+            padding: 0;
+        }
+        #parentContainer {
+            display: flex;
+            flex-direction: column; /* Arrange children vertically */
+            justify-content: center; /* Center children vertically */
+            align-items: center; /* Center children horizontally */
+        }
+        #minesDisplay, #timeDisplay {
+            display: inline-block;
+            margin-left: 6px;
+            margin-right: 6px;
         }
 
-        /*Centering class*/
-        .center {
-            text-align: center;
-            margin: 0 auto;
+        #minesDisplay img, #timeDisplay img {
+            width: 13px;
+            height: 23px;
+            margin-bottom: -4px; /*center numbers vertically*/
         }
-        .white-box {
-            background-color: white;
-            padding: 10px;
-            border: 2px solid #ccc;
-            border-radius: 5px;
-            width: 300px; /* Adjust width as needed */
-            margin: 0 auto; /* Center the box */
+        .center {
+            display: flex;
+            justify-content: center; /* Horizontally center */
+            align-items: center; /* Vertically center */
+        }
+
+        .display-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            height:100%;
+        }
+        .gray-box {
+            background-color: green;
+            height: 32px;
+            width: 160px;
+            align-items: center;
+            margin: 0;
         }
         .tile {
             width: 16px;
             height: 16px;
-            background-color: #eee;
             display: inline-block;
-            text-align: center;
             line-height: 16px;
             vertical-align: top; /* Add this property to align tiles properly */
+            margin: 0;
+            padding: 0;
         }
         .tile-border {
-            width: 10px;
+            width: 16x;
             height: 10px;
-            background-color: #eee;
             display: inline-block;
-            text-align: center;
             line-height: 10px;
             vertical-align: top; /* Add this property to align tiles properly */
+            margin: 0;
+            padding: 0;
         }
-        .tile.revealed {
-            background-color: white; /* Change the background color for revealed tiles */
+        .tile-border-vert{
+            width: 10px;
+            height: 16px;
+            display: block;
+            line-height: 10px;
+            vertical-align: top; /* Add this property to align tiles properly */
+            margin: 0;
+            padding: 0;
         }
-        /* Style for the modal container */
-        .modal {
-            position: absolute; /* Change position to absolute */
-            top: 150%; /* Initially set it below the tiles */
-            left: 50%; /* Center horizontally */
-            transform: translate(-50%, -50%); /* Center vertically and horizontally */
-            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+        .center-image {
+            position: absolute;
+            top: 12.5%; /* Center of scoreboard */
+            left: 50%;
+            transform: translate(-50%, -50%);
+            cursor: pointer;
+        }
+        .leaderboards-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .leaderboard-container {
+            margin-right: 20px;
+            width: 140px;
+        }
+
+        .leaderboard {
+            font-family: monospace;
+            white-space: pre;
+            padding-left: 0px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .leaderboardtitle {
+            font-family: monospace;
             display: flex;
             justify-content: center;
-            align-items: center;
-            z-index: 9999; /* Ensure modal is on top of other elements */
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 10px;
+            letter-spacing: 10px;
         }
-
-        /* Style for the modal content */
-        .modal-content {
-            background-color: white;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Shadow effect */
+        .title {
+            font-family: monospace;
+            display: flex;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+            margin-top: 10px;
         }
-
 
     </style>
+    <!-- Preload images -->
+    <link rel="preload" href="photos/smileyclicked.gif" as="image">
+    <link rel="preload" href="photos/0.gif" as="image">
+    <link rel="preload" href="photos/1.gif" as="image">
+    <link rel="preload" href="photos/2.gif" as="image">
+    <link rel="preload" href="photos/3.gif" as="image">
+    <link rel="preload" href="photos/4.gif" as="image">
+    <link rel="preload" href="photos/5.gif" as="image">
+    <link rel="preload" href="photos/6.gif" as="image">
+    <link rel="preload" href="photos/7.gif" as="image">
+    <link rel="preload" href="photos/8.gif" as="image">
+    <link rel="preload" href="photos/digits/0.gif" as="image">
+    <link rel="preload" href="photos/digits/1.gif" as="image">
+    <link rel="preload" href="photos/digits/2.gif" as="image">
+    <link rel="preload" href="photos/digits/3.gif" as="image">
+    <link rel="preload" href="photos/digits/4.gif" as="image">
+    <link rel="preload" href="photos/digits/5.gif" as="image">
+    <link rel="preload" href="photos/digits/6.gif" as="image">
+    <link rel="preload" href="photos/digits/7.gif" as="image">
+    <link rel="preload" href="photos/digits/8.gif" as="image">
+    <link rel="preload" href="photos/digits/9.gif" as="image">
+
 </head>
 <body>
 
@@ -125,14 +218,64 @@
         <label for="darkModeToggle">Dark Mode:</label>
         <input type="checkbox" id="darkModeToggle">
 	</div>
-    <div class="center white-box">
-        <div id="parentContainer">
-            <div id="tetrisContainer">
-                <div id="minesweeper" class="grid-container"></div>
+	<div>
+        <button onclick="changeMapSize('small')">Small</button>
+        <button onclick="changeMapSize('medium')">Medium</button>
+        <button onclick="changeMapSize('large')">Large</button>
+        <button onclick="changeMapSize('larger')">Larger</button>
+    </div>
+    <div id="topborder" class="center"></div>
+    <div class="center">
+        <div id="topleftborder"></div>
+        <div class="gray-box" id="grayBox">
+            <div class="display-container">
+                <div id="minesDisplay"></div>
+                <img id="resetButton" src="photos/smiley.gif" onclick="restart()" onmousedown="this.src='photos/smileyclicked.gif'; setTimeout(() => { this.src='photos/smiley.gif'; }, 50);">
+                <div id="timeDisplay"></div>
             </div>
-            <div id="scoreDisplay">Score: <span id="score">0</span></div>
+        </div>
+        <div id="toprightborder"></div>
+    </div>
+    <div class="center">
+        <div id="middleborder" class="grid-container"></div>
+    </div>
+    <div class="center">
+        <div id="leftborder"></div>
+        <div id="minesweeper"></div>
+        <div id="rightborder"></div>
+
+    </div>
+    <div class="center">
+        <div id="bottomborder"></div>
+    </div>
+    <div class="center">
+        <div class="leaderboardtitle">LEADERBOARDS</div>
+    </div>
+    <div class="center">
+        <div class="leaderboards-container">
+            <div class="leaderboard-container">
+                <div class="title">Small</div>
+                <div id="leaderboard-small" class="leaderboard"></div>
+            </div>
+            <div class="leaderboard-container">
+                <div class="title">Medium</div>
+                <div id="leaderboard-medium" class="leaderboard"></div>
+            </div>
+            <div class="leaderboard-container">
+                <div class="title">Large</div>
+                <div id="leaderboard-large" class="leaderboard"></div>
+            </div>
+            <div class="leaderboard-container">
+                <div class="title">Larger</div>
+                <div id="leaderboard-larger" class="leaderboard"></div>
+            </div>
         </div>
     </div>
+
+    </div>
+
+</div>
+
 
     <script src="minesweeper.js"></script>
     <script>
