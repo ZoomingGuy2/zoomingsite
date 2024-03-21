@@ -4,16 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="description" content="This is the part of my website that contains book recommendations">
-    <meta name="keywords" content="books, economics, hacking, reading, history, nonfiction, fiction, historical fiction">
+    <meta name="description" content="This is the part of my website that contains information about the marathons that I've run'">
+    <meta name="keywords" content="Arda Caliskan, Arda, zooming guy, zooming guy 2, strava, linkedin, marathons, running, long beach, los angeles">
     <meta name="author" content="Arda Caliskan">
-    <title>Arda's book recs</title>
-    <link rel="icon" href="../photos/zg2_usc.ico" type="image/x-icon">
+    <title>Arda's Marathons</title>
+    <link rel="icon" href="/photos/zg2_usc.ico" type="image/x-icon">
     <style>
         body {
             font-family: "Andale Mono", monospace;
+            font-size: 20px;
             position: relative;
-            background-image: url('../photos/circuit.png');
+            background-image: url('/photos/circuit.png');
             background-repeat: repeat;
             background-color: white;
             color: black;
@@ -25,7 +26,7 @@
 
         /* Dark mode styles */
         body.dark-mode {
-            background-image: url('../photos/darkcircuit.png');
+            background-image: url('/photos/darkcircuit.png');
             background-repeat: repeat;
             background-color: black;
             color: white;
@@ -43,22 +44,21 @@
             right: 10px;
         }
 
-        /* Terminal green color for hyperlinks */
         a {
-            color: #FF0000; /* Inherit color from parent element */
+            color: #FF0000; /* red when never visited */
             text-decoration: none; /* Remove default underline */
         }
 
         a:visited {
-            color: #00FF00; /* Inherit color from parent element */
+            color: #00FF00; /* Green when visited */
         }
 
         a:hover {
-            color: #FFFF00; /* Terminal green color on hover */
+            color: #FFFF00; /* Terminal yellow color on hover */
         }
 
         a:active {
-            color: #0000FF; /* Terminal green color when clicked */
+            color: #0000FF; /* Terminal blue color when clicked */
         }
 
         /*Centering class*/
@@ -78,7 +78,6 @@
             #darkModeToggleContainer {
                 top: 10px;
                 right: 10px;
-		font-fize: 12px;
             }
             body {
                 padding: 10px;
@@ -104,21 +103,27 @@
 
     </style>
 </head>
-<body> 
+<body>
     <!-- Toggle switch container -->
     <div id="darkModeToggleContainer">
-        <label for="darkModeToggle">Dark Mode:</label>
+        <label for="darkModeToggle" style="font-size: 12px;">Dark Mode:</label>
         <input type="checkbox" id="darkModeToggle">
-    </div> 
-    <div class="center" style="text-align: left;">
-        <p style="font-size: 20px; font-weight: bold;">Book Recommendations</p>
-	<p><a href="https://en.wikipedia.org/wiki/The_Dictator%27s_Handbook">The Dictators Handbook</a></p>
-	<p><a href="https://en.wikipedia.org/wiki/The_Cuckoo's_Egg_(book)">The Cuckoo's Egg</a></p>
-	<p><a href="https://en.wikipedia.org/wiki/Permanent_Record_(autobiography)">Permanent Record</a></p>
-        <hr>
-
     </div>
+    <div class="center" style="text-align: left;">
+        <p style="font-size: 30px; font-weight: bold; margin-bottom: -5px;">My First Marathon</p>
+		<p style="font-size: 24px;">Long Beach 2021</p>
+	</div>
+	<p>Final Time: 3:49:34</p>
+	<p><a href="https://www.strava.com/activities/6093842192">Strava link</a></p>
+	<hr>
+	<p style="font-size: 24px; font-weight: bold;">Description</p>
+	<p>Like all first races, this one was very tough.</p>
+	<p>Going into the race I was determined to not go out too quickly. I ran the first 6 miles at an easy pace, but those miles were so easy that I felt I would be letting myself down if I didn't speed up. This went well until around mile 17, where I started to feel the first premonitions of the wall. Soon after the pain started, which gradually got worse until the finish line. The last 3 miles took over 50 minutes.</p>
+    <img src="hope.png">
+    <img src="thinking.png">
+    <img src="dead.png">
     <script>
+
         // Function to set dark mode based on local storage
         function setDarkMode() {
             const isDarkMode = localStorage.getItem('darkMode') === 'true';
