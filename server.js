@@ -14,9 +14,9 @@ app.use(cors());
 
 // SSL/TLS Configuration
 const sslOptions = {
-    key: fs.readFileSync('/etc/letsencrypt/live/zoomingguy.duckdns.org-0002/privkey.pem'),
-    cert: fs.readFileSync('/etc/letsencrypt/live/zoomingguy.duckdns.org-0002/fullchain.pem'),
-    ca: fs.readFileSync('/etc/letsencrypt/live/zoomingguy.duckdns.org-0002/chain.pem')
+    key: fs.readFileSync('/etc/letsencrypt/live/zoomingguy.duckdns.org/privkey.pem'),
+    cert: fs.readFileSync('/etc/letsencrypt/live/zoomingguy.duckdns.org/fullchain.pem'),
+    ca: fs.readFileSync('/etc/letsencrypt/live/zoomingguy.duckdns.org/chain.pem')
 };
 
 // Create HTTPS server

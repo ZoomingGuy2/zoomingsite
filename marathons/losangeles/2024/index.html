@@ -8,13 +8,13 @@
     <meta name="keywords" content="Arda Caliskan, Arda, zooming guy, zooming guy 2, strava, linkedin, marathons, running, long beach, los angeles">
     <meta name="author" content="Arda Caliskan">
     <title>Arda's Marathons</title>
-    <link rel="icon" href="../photos/zg2_usc.ico" type="image/x-icon">
+    <link rel="icon" href="/photos/zg2_usc.ico" type="image/x-icon">
     <style>
         body {
             font-family: "Andale Mono", monospace;
             font-size: 20px;
             position: relative;
-            background-image: url('../photos/circuit.png');
+            background-image: url('/photos/circuit.png');
             background-repeat: repeat;
             background-color: white;
             color: black;
@@ -26,7 +26,7 @@
 
         /* Dark mode styles */
         body.dark-mode {
-            background-image: url('../photos/darkcircuit.png');
+            background-image: url('/photos/darkcircuit.png');
             background-repeat: repeat;
             background-color: black;
             color: white;
@@ -44,22 +44,21 @@
             right: 10px;
         }
 
-        /* Terminal green color for hyperlinks */
         a {
-            color: #FF0000; /*herit color from parent element */
+            color: #FF0000; /* red when never visited */
             text-decoration: none; /* Remove default underline */
         }
 
         a:visited {
-            color: #00FF00; /* Inherit color from parent element */
+            color: #00FF00; /* Green when visited */
         }
 
         a:hover {
-            color: #FFFF00; /* Terminal green color on hover */
+            color: #FFFF00; /* Terminal yellow color on hover */
         }
 
         a:active {
-            color: #0000FF; /* Terminal green color when clicked */
+            color: #0000FF; /* Terminal blue color when clicked */
         }
 
         /*Centering class*/
@@ -73,17 +72,12 @@
             align-items: center;
             height: 100%;
         }
-	.digit-container {	/*Container for marathon counter*/
-            display: flex;
-            align-items: center;
-            margin-top: 0px;
-        }
 
         /* Adjustments for mobile */
         @media (max-width: 768px) {
             #darkModeToggleContainer {
-                top: 20px;
-                right: 20px;
+                top: 10px;
+                right: 10px;
             }
             body {
                 padding: 10px;
@@ -109,43 +103,26 @@
 
     </style>
 </head>
-<body> 
+<body>
     <!-- Toggle switch container -->
     <div id="darkModeToggleContainer">
-        <label for="darkModeToggle">Dark Mode:</label>
+        <label for="darkModeToggle" style="font-size: 12px;">Dark Mode:</label>
         <input type="checkbox" id="darkModeToggle">
-    </div> 
-    <div class="center" style="text-align: left;">
-        <p style="font-size: 30px; font-weight: bold; margin-bottom: -5px;">Marathons I've run (Sequential List)</p>
-	<div class="digit-container">
-		<p style="font-size: 24px;">Current Total:&nbsp;</p>
-		<div id="marathonDisplay"></div>
-	</div>
-	<p>1. <a href="longbeach/2021">Long Beach Marathon 2021</a></p>
-	<p>2. <a href="surfcity/2022">Surf City Marathon 2022</a></p>
-	<p>3. <a href="losangeles/2022">Los Angeles Marathon 2022</a></p>
-    <p>4. <a href="longbeach/2022">Long Beach Marathon 2022</a></p>
-	<p>5. <a href="surfcity/2023">Surf City Marathon 2023</a></p>
-	<p>6. <a href="losangeles/2023">Los Angeles Marathon 2023</a></p>
-	<p>7. <a href="longbeach/2023">Long Beach Marathon 2023</a></p>
-	<p>8. <a href="surfcity/2024">Surf City Marathon 2024</a></p>
-	<p>9. <a href="losangeles/2024">Los Angeles Marathon 2024</a></p>
-	<hr>
-
     </div>
+    <div class="center" style="text-align: left;">
+        <p style="font-size: 30px; font-weight: bold; margin-bottom: -5px;">My Ninth Marathon</p>
+		<p style="font-size: 24px;">Los Angeles 2024</p>
+	</div>
+	<p>Final Time: 2:55:14</p>
+	<p><a href="https://www.strava.com/activities/10981663701">Strava link</a></p>
+	<hr>
+	<p style="font-size: 24px; font-weight: bold;">Description</p>
+	<p>Another year, another LA marathon. There were two pinatas this year, managed to clip the streamers off of one. That loop at the end is always so tough, the free beer after the VA hospital helped as usual. Would've hoped to go a little faster, but my legs weren't feeling it.</p>
+    <img src="hope.png">
+    <img src="thinking.png">
+    <img src="dead.png">
     <script>
-	function renderDigitDisplay(value) {	// Displays number of marathons completed
-        	const container = document.getElementById("marathonDisplay");
-        	container.innerHTML = '';
 
-        	const digits = value.toString().padStart(2, '0').split('');
-        	for (let digit of digits) {
-            		const img = document.createElement('img');
-            		img.src = `/minesweeper/photos/digits/${digit}.gif`;	//use the digits from minesweeper
-            		container.appendChild(img);
-        	}
-    	}
-	
         // Function to set dark mode based on local storage
         function setDarkMode() {
             const isDarkMode = localStorage.getItem('darkMode') === 'true';
@@ -163,7 +140,6 @@
 
         // Set dark mode on page load
         setDarkMode();
-	renderDigitDisplay(9);	//UPDATE ME with the number of marathons run
     </script>
 </body>
 </html>
